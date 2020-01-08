@@ -23,6 +23,8 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include "Triangle.h"
+#include "Vec2.h"
 
 class Game
 {
@@ -40,7 +42,13 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
+	Triangle t;
 	/********************************/
 	/*  User Variables              */
 	/********************************/
+
+	float x = 400.0f;
+	float y = 200.0f;
+
+
 };
