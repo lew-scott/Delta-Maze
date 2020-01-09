@@ -1,25 +1,93 @@
 #include "Triangle.h"
 
 
-void Triangle::drawTriangle(Graphics & gfx, Vec2 position, bool lEdge, bool rEdge, bool bEdge)
+Triangle::State Triangle::setToUnvisitedGrid()
 {
-	Vec2 p1 = { 0,-14 };
-	Vec2 p2 = { -12,10 };
-	Vec2 p3 = { 12,10 };
+	return state = State::UnVisited;
+}
 
-	if (lEdge == true)
-	{
-		gfx.Drawline(p1 + position, p2 + position, Colors::White);
-	}
+Triangle::State Triangle::setToVisited()
+{
+	return state = State::Visited;
+}
 
-	if (rEdge == true)
-	{
-		gfx.Drawline(p2 + position, p3 + position, Colors::White);
-	}
+Triangle::State Triangle::setToStart()
+{
+	setBottomConnection();
+	return state = State::Start;
+}
 
-	if (bEdge == true)
+Triangle::State Triangle::setToEnd()
+{
+	setBottomConnection();
+	return state = State::End;
+}
+
+void Triangle::drawTriangle(Graphics & gfx, Vei2 pos)
+{
+	Vec2 scrPos;
+	scrPos.x = pos.x * width * 0.5 + 350;
+	scrPos.y = pos.y * height + 100;
+
+	Vec2 p1 = { 0 + scrPos.x,-14 + scrPos.y };
+	Vec2 p2 = { -12 + scrPos.x, 10 + scrPos.y };
+	Vec2 p3 = { 12 + scrPos.x, 10 + scrPos.y };
+	if (state == State::Visited || state == State::Start || state == State::End)
 	{
-		gfx.Drawline(p3 + position, p1 + position, Colors::White);
+		if (hasLeftConnection == false)
+		{
+			gfx.Drawline(p1, p2, Colors::White);
+		}
+
+		if (hasBottomConnection == false)
+		{
+			gfx.Drawline(p2, p3, Colors::White);
+		}
+
+		if (hasRightConnection == false)
+		{
+			gfx.Drawline(p3, p1, Colors::White);
+		}
 	}
+}
+
+bool Triangle::setLeftConnection()
+{
+	return hasLeftConnection = true;
+}
+
+bool Triangle::setRightConnection()
+{
+	return hasRightConnection = true;
+}
+
+bool Triangle::setBottomConnection()
+{
+	return hasBottomConnection = true;
+}
+
+bool Triangle::setTopConnection()
+{
+	return hasTopConnection = true;
+}
+
+bool Triangle::checkLeftConnection()
+{
+	return hasLeftConnection;
+}
+
+bool Triangle::checkRightConnection()
+{
+	return hasRightConnection;
+}
+
+bool Triangle::checkBottomConnection()
+{
+	return hasBottomConnection;
+}
+
+bool Triangle::checkTopConnection()
+{
+	return hasTopConnection;
 }
 

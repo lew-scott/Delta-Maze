@@ -23,7 +23,7 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
-#include "Triangle.h"
+#include "Maze.h"
 #include "Vec2.h"
 
 class Game
@@ -42,7 +42,7 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
-	Triangle t;
+	Maze maze;
 	/********************************/
 	/*  User Variables              */
 	/********************************/

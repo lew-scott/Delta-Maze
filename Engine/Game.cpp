@@ -26,6 +26,7 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd )
 {
+	maze.initLayout();
 }
 
 void Game::Go()
@@ -42,21 +43,5 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	int length = 1;
-	float x = 400.0f;
-	float y = 50.0f;
-	for (int j = 0; j < 20; j++)
-	{
-		for (int i = 1; i <= length; i++)
-		{
-			t.drawTriangle(gfx, { x,y }, true, true, true);
-			if (i != length)
-			{
-				x += 24;
-			}
-		}
-		x = x - length * 24 + 12;
-		y += 24;
-		length += 1;
-	}
+	maze.drawMaze(gfx);
 }
