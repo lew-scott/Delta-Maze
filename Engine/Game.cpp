@@ -39,6 +39,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	maze.createMaze();
 }
 
 void Game::ComposeFrame()

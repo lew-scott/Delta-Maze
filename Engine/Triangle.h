@@ -17,19 +17,20 @@ public:
 		End
 	};
 
-	State setToUnvisitedGrid();
+	State setToUnvisited();
 	State setToVisited();
 	State setToStart();
-	State setToEnd();
+	void setToEnd();
 	void drawTriangle(Graphics& gfx, Vei2 position);
-	bool setLeftConnection();
-	bool setRightConnection();
-	bool setBottomConnection();
-	bool setTopConnection();
+	void setLeftConnection();
+	void setRightConnection();
+	void setBottomConnection();
+	void setTopConnection();
 	bool checkLeftConnection();
 	bool checkRightConnection();
 	bool checkBottomConnection();
 	bool checkTopConnection();
+	bool checkUnvisited();
 
 
 private:

@@ -8,7 +8,7 @@ void Maze::initLayout()
 	{
 		for (int i = 1; i <= length; i++)
 		{
-			atTriangle(p).setToVisited();
+			atTriangle(p).setToUnvisited();
 			if (i != length)
 			{
 				p.x += 1;
@@ -20,10 +20,232 @@ void Maze::initLayout()
 		p.y += 1;
 	}
 
-	p = { 0,height-1 };
+	p = { 0, height-1 };
+	pos = p;
+	moves.push_back(p);
 	atTriangle(p).setToStart();
 	p = { width-1,height-1 };
 	atTriangle(p).setToEnd();
+}
+
+
+void Maze::createMaze()
+{
+
+	AvailableMoves = { 0,0,0 };
+	if (pos.y % 2 == 0) // Even row
+	{
+		if (pos.x % 2 == 0) // bottom-flat triangle
+		{
+
+			if (pos.x > 0)
+			{
+				newPos = pos - hm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[0] = 1;
+				}
+			}
+
+
+			if (pos.x < width - 1)
+			{
+				newPos = pos + hm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[1] = 2;
+				}
+			}
+
+
+			if (pos.y < height - 1)
+			{
+				newPos = pos + vm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[2] = 3;
+				}
+			}
+		}
+		else // top-flat triangle
+		{
+
+			if (pos.x > 0)
+			{
+				newPos = pos - hm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[0] = 1;
+				}
+			}
+
+
+			if (pos.x < width - 1)
+			{
+				newPos = pos + hm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[1] = 2;
+				}
+			}
+
+
+			if (pos.y > 0)
+			{
+				newPos = pos - vm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[2] = 4;
+				}
+			}
+		}
+	}
+	else // Odd row
+	{
+		if (pos.x % 2 == 1) // bottom-flat triangle
+		{
+
+			if (pos.x > 0)
+			{
+				newPos = pos - hm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[0] = 1;
+				}
+			}
+
+
+			if (pos.x < width - 1)
+			{
+				newPos = pos + hm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[1] = 2;
+				}
+			}
+
+
+			if (pos.y < height - 1)
+			{
+				newPos = pos + vm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[2] = 3;
+				}
+			}
+		}
+		else // top-flat triangle
+		{
+
+			if (pos.x > 0)
+			{
+				newPos = pos - hm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[0] = 1;
+				}
+			}
+
+
+			if (pos.x < width - 1)
+			{
+				newPos = pos + hm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[1] = 2;
+				}
+			}
+
+
+			if (pos.y > 0)
+			{
+				newPos = pos - vm;
+				if (atTriangle(newPos).checkUnvisited() == true)
+				{
+					AvailableMoves[2] = 4;
+				}
+			}
+		}
+	}
+	bool NowhereFree;
+
+	for (int i = 1; i < AvailableMoves.size(); i++)
+	{
+		if (AvailableMoves[i - 1] != AvailableMoves[i])
+		{
+			NowhereFree = false;
+			break;
+		}
+		else
+		{
+			NowhereFree = true;
+		}
+	}
+
+	if (NowhereFree == true) // if no position is free move back
+	{
+		pos = moves.rbegin()[1];
+		moves.pop_back();
+	}
+
+	else
+	{
+		std::uniform_int_distribution<int> dist(0, int(AvailableMoves.size()) - 1);
+		std::mt19937 rand;
+		int direction = 0;
+		int i = 0;
+		while (i == 0) // get a random direction, based on tiles available around itself
+		{
+			i = AvailableMoves[dist(rand)];
+			direction = i;
+		}
+		if (direction == 1)
+		{
+			atTriangle(pos).setLeftConnection();  // set connection at old tile with new tile
+			pos -= hm;				           // move
+			atTriangle(pos).setToVisited();
+			atTriangle(pos).setRightConnection(); // set connection at new tile with previous
+		}
+		else if (direction == 2)
+		{
+			atTriangle(pos).setRightConnection();  // set connection at old tile with new tile
+			pos += hm;							// move
+			atTriangle(pos).setToVisited();
+			atTriangle(pos).setLeftConnection(); // set connection at new tile with previous
+		}
+		else if (direction == 3)
+		{
+			atTriangle(pos).setBottomConnection();  // set connection at old tile with new tile
+			pos += vm;				      // move
+			atTriangle(pos).setToVisited();
+			atTriangle(pos).setTopConnection(); // set connection at new tile with previous
+		}
+		else if (direction == 4)
+		{
+			atTriangle(pos).setTopConnection();  // set connection at old tile with new tile
+			pos -= vm;				      // move
+			atTriangle(pos).setToVisited();
+			atTriangle(pos).setBottomConnection(); // set connection at new tile with previous
+		}
+		moves.push_back(pos);
+	}
+}
+
+bool Maze::check_tiles_are_all_visited()
+{
+	bool test;
+	for (Vei2 gridpos = { 0,0 }; gridpos.y < height; gridpos.y++)
+	{
+		for (gridpos.x = 0; gridpos.x < width; gridpos.x++)
+		{
+			test = atTriangle(gridpos).checkUnvisited();
+			if (test == true)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
 }
 
 void Maze::drawMaze(Graphics & gfx)
@@ -49,6 +271,11 @@ void Maze::drawMaze(Graphics & gfx)
 }
 
 Triangle& Maze::atTriangle(const Vei2 position)
+{
+	return points[position.y * width + position.x];
+}
+
+const Triangle & Maze::atTriangle(const Vei2 & position) const
 {
 	return points[position.y * width + position.x];
 }

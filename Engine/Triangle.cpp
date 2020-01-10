@@ -1,7 +1,7 @@
 #include "Triangle.h"
 
 
-Triangle::State Triangle::setToUnvisitedGrid()
+Triangle::State Triangle::setToUnvisited()
 {
 	return state = State::UnVisited;
 }
@@ -17,16 +17,15 @@ Triangle::State Triangle::setToStart()
 	return state = State::Start;
 }
 
-Triangle::State Triangle::setToEnd()
+void Triangle::setToEnd()
 {
 	setBottomConnection();
-	return state = State::End;
 }
 
 void Triangle::drawTriangle(Graphics & gfx, Vei2 pos)
 {
 	Vec2 scrPos;
-	scrPos.x = pos.x * width * 0.5 + 350;
+	scrPos.x = pos.x * width * 0.5f + 325;
 	scrPos.y = pos.y * height + 100;
 
 	Vec2 p1 = { 0 + scrPos.x,-14 + scrPos.y };
@@ -51,24 +50,24 @@ void Triangle::drawTriangle(Graphics & gfx, Vei2 pos)
 	}
 }
 
-bool Triangle::setLeftConnection()
+void Triangle::setLeftConnection()
 {
-	return hasLeftConnection = true;
+	 hasLeftConnection = true;
 }
 
-bool Triangle::setRightConnection()
+void Triangle::setRightConnection()
 {
-	return hasRightConnection = true;
+	hasRightConnection = true;
 }
 
-bool Triangle::setBottomConnection()
+void Triangle::setBottomConnection()
 {
-	return hasBottomConnection = true;
+	hasBottomConnection = true;
 }
 
-bool Triangle::setTopConnection()
+void Triangle::setTopConnection()
 {
-	return hasTopConnection = true;
+	hasTopConnection = true;
 }
 
 bool Triangle::checkLeftConnection()
@@ -89,5 +88,18 @@ bool Triangle::checkBottomConnection()
 bool Triangle::checkTopConnection()
 {
 	return hasTopConnection;
+}
+
+bool Triangle::checkUnvisited()
+{
+	if (state == State::UnVisited)
+	{ 
+		return true;
+	}
+	else 
+	{ 
+		return false; 
+	}
+
 }
 
