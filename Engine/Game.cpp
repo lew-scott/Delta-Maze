@@ -27,6 +27,7 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd )
 {
 	maze.initLayout();
+	maze.createMaze();
 }
 
 void Game::Go()
@@ -39,7 +40,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	maze.createMaze();
+	
 }
 
 void Game::ComposeFrame()

@@ -13,15 +13,15 @@ class Maze
 public:
 	void initLayout();
 	void createMaze();
-	bool check_tiles_are_all_visited();
+	bool check_tri_are_all_visited();
 	void drawMaze(Graphics& gfx);
 	Triangle& atTriangle(const Vei2 position);
 	const Triangle& atTriangle(const Vei2& position) const;
 
 private:
 	
-	static constexpr int height = 5;
-	static constexpr int width = 9;
+	static constexpr int height = 45;
+	static constexpr int width = 89;
 	Triangle points[width * height];
 	Vei2 pos;
 	Vei2 hm = { 1,0 }; // horizontal move
