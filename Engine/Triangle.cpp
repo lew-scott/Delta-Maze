@@ -25,12 +25,12 @@ void Triangle::setToEnd()
 void Triangle::drawTriangle(Graphics & gfx, Vei2 pos)
 {
 	Vec2 scrPos;
-	scrPos.x = pos.x * width * 0.5f + 325;
-	scrPos.y = pos.y * height + 100;
+	scrPos.x = (float)pos.x * width * 0.5f + 130.0f;
+	scrPos.y = (float)pos.y * height + 30.0f;
 
-	Vec2 p1 = { 0 + scrPos.x,-14 + scrPos.y };
-	Vec2 p2 = { -12 + scrPos.x, 10 + scrPos.y };
-	Vec2 p3 = { 12 + scrPos.x, 10 + scrPos.y };
+	Vec2 p1 = { 0 + scrPos.x,-8 + scrPos.y };
+	Vec2 p2 = { -6 + scrPos.x, 4 + scrPos.y };
+	Vec2 p3 = { 6 + scrPos.x, 4 + scrPos.y };
 	if (state == State::Visited || state == State::Start || state == State::End)
 	{
 		if (hasLeftConnection == false)
@@ -90,16 +90,15 @@ bool Triangle::checkTopConnection()
 	return hasTopConnection;
 }
 
+
 bool Triangle::checkUnvisited()
 {
 	if (state == State::UnVisited)
 	{ 
 		return true;
 	}
-	else 
-	{ 
-		return false; 
-	}
+	
+	return false; 
 
 }
 

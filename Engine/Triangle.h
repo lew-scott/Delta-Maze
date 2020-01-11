@@ -40,8 +40,8 @@ private:
 	bool hasRightConnection = false;
 	bool hasBottomConnection = false;
 	bool hasTopConnection = false;
-	static constexpr int width = 24;
-	static constexpr int height = 24;
+	static constexpr int width = 12;
+	static constexpr int height = 12;
 
 
 };
